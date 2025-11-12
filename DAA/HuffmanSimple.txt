@@ -1,0 +1,52 @@
+import java.util.*;
+public class HuffmanSimple 
+	{
+    	static class Node implements Comparable<Node> 
+	{
+        char ch;
+        int freq;
+        Node left, right;
+        Node(char c, int f) { ch = c; freq = f; }
+        public int compareTo(Node n) { return this.freq - n.freq; 
+	}
+    	}
+    	static void print(Node root, String code) 
+	{
+        if (root.left == null && root.right == null) 
+	{
+        System.out.println(root.ch + " : " + code);
+        return;
+        }
+        print(root.left, code + "0");
+        print(root.right, code + "1");
+    	}
+    	public static void main(String[] args) 
+	{
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of characters:");
+        int n = sc.nextInt();
+        char[] ch = new char[n];
+        int[] f = new int[n];
+        for (int i = 0; i < n; i++) 
+	{
+        System.out.print("Character " + (i + 1) + ": ");
+        ch[i] = sc.next().charAt(0);
+        System.out.print("Frequency of " + ch[i] + ": ");
+        f[i] = sc.nextInt();
+        }
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        for (int i = 0; i < n; i++)
+            pq.add(new Node(ch[i], f[i]));
+        while (pq.size() > 1) 
+	{
+        Node a = pq.poll(), b = pq.poll();
+        Node newNode = new Node('-', a.freq + b.freq);
+        newNode.left = a;
+        newNode.right = b;
+        pq.add(newNode);
+        }
+        System.out.println("\nHuffman Codes:");
+        print(pq.peek(), "");
+        sc.close();
+    	}
+}

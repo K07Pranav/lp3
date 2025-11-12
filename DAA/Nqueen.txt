@@ -1,0 +1,37 @@
+N=int(input("Enter The Number Of Bord You Want"))
+b=[]
+for j in range(N):
+    row=[]
+    for i in range(N):
+        row.append(0)
+    b.append(row)
+print(b)
+def isSafe(i,j):
+    for n in range(N):
+        if b[i][n]==1 or b[n][j]==1:
+            return False
+    for n in range(N):
+        for m in range(N):
+            if i+j==n+m or i-j==n-m:
+                if b[n][m]==1:
+                    return False
+    return True
+def nqueen(noq):
+    if noq==0:
+        return True
+    for i in range(N):
+        for j in range(N):
+            if b[i][j]!=1 and isSafe(i,j):
+                b[i][j]=1
+                if nqueen(noq-1)==True:
+                    return True
+                b[i][j]=0
+    return False
+def printB(b):
+    for i in range(len(b)):
+        print(b[i])
+    print()
+if nqueen(N):
+    printB(b)
+else:
+    print("Can't Place Queen")
